@@ -24,7 +24,7 @@ def githubApiSearchCode( token, search, page, sort, order ):
     # print(">>> "+url)
 
     try:
-        r = requests.get( url, headers=headers, timeout=5 )
+        r = requests.get( url, headers=headers, timeout=7 )
         json = r.json()
         return json
     except Exception as e:

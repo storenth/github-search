@@ -40,8 +40,10 @@ t_exclude = [
     r'^application/x-www-form-urlencoded$',
     r'/Users/[0-9a-zA-Z\-\_]/Desktop',
     r'www.w3.org',
+    r'web.archive.org',
     r'schemas.android.com',
     r'www.apple.com',
+    r'error',
     # r'^#',
     # r'^\?',
     # r'^javascript:',
@@ -85,13 +87,13 @@ def githubApiSearchCode( token, search, page, sort, order ):
     # print(">>> "+url)
 
     try:
-        r = requests.get( url, headers=headers, timeout=5 )
+        r = requests.get( url, headers=headers, timeout=10 )
         json = r.json()
         # print(r.json)
         # print(r.text)
         return json
     except Exception as e:
-        print( "%s[-] error occurred: %s%s" % (fg('red'),e,attr(0)) )
+        sys.stderr.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
         return False
 
 
@@ -154,7 +156,7 @@ def readCode( regexp, source, confirm, relative, alldomains, result ):
                                     if not sss:
                                         continue
                                 except Exception as e:
-                                    sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+                                    sys.stderr.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
 
                             t_endpoints.append( endpoint )
                             t_local_endpoints.append( endpoint )
@@ -169,9 +171,9 @@ def readCode( regexp, source, confirm, relative, alldomains, result ):
 
 def doGetCode( url ):
     try:
-        r = requests.get( url, timeout=5 )
+        r = requests.get( url, timeout=10 )
     except Exception as e:
-        sys.stdout.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
+        sys.stderr.write( "%s[-] error occurred: %s%s\n" % (fg('red'),e,attr(0)) )
         return False
 
     return r.text
